@@ -8,7 +8,37 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 app.use(cors());
 app.use(express.json());
 
-const uri = "mongodb+srv://AlShefa_admin:<password>@cluster0.k2xq3je.mongodb.net/?retryWrites=true&w=majority";
+// URI
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.k2xq3je.mongodb.net/?retryWrites=true&w=majority`;
+
+// Connection String
+
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+
+// Async Run Function
+async function run(){
+
+  try{
+      await client.connect();
+      console.log("Database Connected");
+      const serviceCollection = client.db("Al-Shefa").collection("Services");
+
+      app.get('/service', async(req,res)=>{
+        const query = {};
+        const cursor = serviceCollection.find(query);
+        const services = await cursor.toArray();
+        res.send(services);
+
+      })
+  }
+  finally{
+
+  }
+}
+run().catch(console.dir);
+
 
 
 app.get('/', (req, res) => {
