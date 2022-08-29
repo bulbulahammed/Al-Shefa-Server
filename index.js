@@ -19,19 +19,27 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 // Async Run Function
 async function run(){
-
   try{
       await client.connect();
       console.log("Database Connected");
-      const serviceCollection = client.db("Al-Shefa").collection("Services");
+      const serviceCollection = client.db("Al-Shefa").collection("services");
+      const bookingCollection = client.db("Al-Shefa").collection("bookings");
+     
+
+    app.post("/add-booking",async(req,res)=>{
+      const booking = req.body;
+      const result = await bookingCollection.insertOne(booking);
+      res.send(result);
+    })
 
       app.get('/service', async(req,res)=>{
         const query = {};
         const cursor = serviceCollection.find(query);
         const services = await cursor.toArray();
-        res.send(services);
+        res.send(services); 
 
-      })
+      });
+
   }
   finally{
 
