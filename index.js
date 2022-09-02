@@ -26,6 +26,14 @@ async function run(){
       const serviceCollection = client.db("Al-Shefa").collection("services");
       const bookingCollection = client.db("Al-Shefa").collection("bookings");
      
+
+    // Get data According to User
+    app.get('/booking', async(req, res) =>{
+      const patient = req.query.patient;
+      const query = {patient: patient};
+      const bookings = await bookingCollection.find(query).toArray();
+      res.send(bookings);
+    })
 // Post Booking to Database
     app.post("/add-booking",async(req,res)=>{
       const booking = req.body;
