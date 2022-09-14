@@ -78,6 +78,12 @@ async function run(){
 
       });
 
+  // Get All Users
+  app.get('/user',async(req,res)=>{
+    const users = await userCollection.find().toArray();
+    res.send(users);
+  })
+
   // Send/Update user Data in Database
   app.put('/user/:email', async(req,res)=>{  
     const email = req.params.email;
