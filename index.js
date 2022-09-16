@@ -45,6 +45,7 @@ async function run(){
 
     // Get data According to User
     app.get('/booking',verifyJWT, async(req, res) =>{
+    // app.get('/booking', async(req, res) =>{
       const patient = req.query.patient;
       const authorization = req.headers.authorization;
       const decodedEmail = req.decoded.email;
@@ -79,7 +80,7 @@ async function run(){
       });
 
   // Get All Users
-  app.get('/user',async(req,res)=>{
+  app.get('/user',verifyJWT,async(req,res)=>{
     const users = await userCollection.find().toArray();
     res.send(users);
   })
