@@ -185,7 +185,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('Hello from Al-Shefa Server!')
+  res.send('Hello from Al-Shefa Server! update_9/27/22')
 })
 
 app.listen(port, () => {
