@@ -3,8 +3,9 @@ const cors = require('cors');
 require('dotenv').config();
 const app = express()
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
+const { application } = require('express');
 
 app.use(cors());
 app.use(express.json());
@@ -68,6 +69,14 @@ async function run(){
         return res.status(403).send({message:'forbidden access'});
       }
     });
+
+    // Get Booking According to ID
+    app.get('/booking/:id',verifyJWT, async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)}
+      const booking = await bookingCollection.findOne(query);
+      res.send(booking);
+    })
 
     // Post Booking to Database
     app.post("/add-booking",async(req,res)=>{
@@ -191,3 +200,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Al-Shefa Server listening on port ${port}`)
 })
+
+
