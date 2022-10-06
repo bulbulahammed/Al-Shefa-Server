@@ -42,6 +42,7 @@ async function run(){
       const bookingCollection = client.db("Al-Shefa").collection("bookings");
       const userCollection = client.db("Al-Shefa").collection("users");
       const doctorCollection = client.db("Al-Shefa").collection("doctors");
+      const paymentCollection = client.db("Al-Shefa").collection("payments");
 
       // Verify Admin
       const verifyAdmin = async(req,res,next) =>{
@@ -90,6 +91,22 @@ async function run(){
       const result = await bookingCollection.insertOne(booking);
       return  res.send({success: true,result});
     });
+
+    // Update Booking After Payment
+    app.patch('/booking/:id',verifyJWT, async(req,res)=>{
+      const id = req.params.id;
+      const payment = req.body;
+      const filter = {_id: ObjectId(id)};
+      const updatedDoc ={
+        $set:{
+          paid: true,
+          transactionId: payment.transactionId,
+        }
+      }
+      const result = await paymentCollection.insertOne(payment);
+      const updatedBooking = await bookingCollection.updateOne(filter, updatedDoc);
+      res.send(updatedDoc);
+    })
 
 
     // Payment API
