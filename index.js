@@ -197,7 +197,7 @@ async function run(){
       });
 
       // Get All the Doctor
-      app.get('/doctor',verifyJWT,verifyAdmin,async(req,res)=>{
+      app.get('/doctor',verifyJWT,async(req,res)=>{
         const doctors = await doctorCollection.find().toArray();
         res.send(doctors);
       });
