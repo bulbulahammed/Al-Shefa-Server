@@ -132,7 +132,8 @@ async function run(){
       });
 
       // Get All Users
-      app.get('/user',verifyJWT,async(req,res)=>{
+      // app.get('/user',verifyJWT,async(req,res)=>{
+      app.get('/user',async(req,res)=>{
         const users = await userCollection.find().toArray();
         res.send(users);
       });
@@ -188,7 +189,8 @@ async function run(){
       });
 
       // Get All the Doctor
-      app.get('/doctor',verifyJWT,async(req,res)=>{
+      // app.get('/doctor',verifyJWT,async(req,res)=>{
+      app.get('/doctor',async(req,res)=>{
         const doctors = await doctorCollection.find().toArray();
         res.send(doctors);
       });
